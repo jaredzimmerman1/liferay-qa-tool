@@ -16,13 +16,14 @@ mysqlPassword=
 masterDB=master
 ee62xDB=ee62
 ee70xDB=ee7
-releaseDB=lportal
+ee61xDB=ee61
 
 # Bundle ports
 # e.g. for 9080 put 9
 masterPort=9
 ee62xPort=7
 ee70xPort=8
+ee61xPort=6
 
 # Portal Directories
 sourceDir=/home/username/Liferay/Source/private
@@ -39,6 +40,10 @@ ee62xPluginsDir=$sourceDir/ee-6.2.x-plugins
 ee70xSourceDir=$sourceDir/ee-7.0.x-build
 ee70xBundleDir=$bundleDir/ee-7.0.x-bundles
 ee70xPluginsDir=$sourceDir/ee-7.0.x-plugins
+
+ee61xSourceDir=$sourceDir/ee-6.1.x-build
+ee61xBundleDir=$bundleDir/ee-6.1.x-bundles
+ee61xPluginsDir=$sourceDir/ee-6.1.x-plugins
 
 # Plugins
 #
@@ -73,7 +78,7 @@ bundleBuild(){
 
 	read -p "Switch to main branch and update to HEAD? (y/n)?" -n 1 -r
 		echo
-		if [[ $REPLY = y ]]
+		if [[ $REPLY =~ ^[Yy]$ ]]
 		then
 			echo "Switching to branch $v"
 			git checkout $v
@@ -83,10 +88,10 @@ bundleBuild(){
 			echo -e "\e[31m[y/n?]\e[0m"
 			read -n 1 -r
 				echo
-				if [[ $REPLY = y ]]
+				if [[ $REPLY =~ ^[Yy]$ ]]
 				then
 		    		echo "Sweetness"
-		    	elif [[ $REPLY = n ]] 
+		    	elif [[ $REPLY =~ ^[Nn]$ ]] 
 				then
 					echo "No"
 					echo "Come back when you have committed or stashed your modified files."
@@ -106,7 +111,7 @@ bundleBuild(){
 			echo "Pushing to Origin"
 			echo
 			git push origin $v
-		elif [[ $REPLY = n ]] 
+		elif [[ $REPLY =~ ^[Nn]$ ]] 
 		then
 			echo "No"
 		else 
@@ -141,6 +146,7 @@ Which bundle?
 	Master     (1)
 	ee-6.2.x   (2)
 	ee-7.0.x   (3)
+	ee-6.1.x   (4)
 
 	           (q)uit to main menu
 ----------------------------------------
@@ -150,6 +156,7 @@ EOF
     "1")  dir=$masterSourceDir bun_dir=$masterBundleDir v="master" db=$masterDB p=$masterPort bundleBuild ;;
 	"2")  dir=$ee62xSourceDir bun_dir=$ee62xBundleDir v="ee-6.2.x" db=$ee62xDB p=$ee62xPort  bundleBuild ;;
 	"3")  dir=$ee70xSourceDir  bun_dir=$ee70xBundleDir v="ee-7.0.x" db=$ee70xDB p=$ee70xPort bundleBuild ;;
+	"4")  dir=$ee61xSourceDir  bun_dir=$ee61xBundleDir v="ee-6.1.x" db=$ee61xDB p=$ee61xPort bundleBuild ;;
     "Q")  echo "case sensitive!!" ;;
     "q")  break  ;; 
      * )  echo "Not a valid option" ;;
@@ -212,6 +219,7 @@ Which Bundle?
 	Master     (1)
 	ee-6.2.x   (2)
 	ee-7.0.x   (3)
+	ee-6.1.x   (4)
 
 	           (q)uit to main menu
 ----------------------------------------
@@ -221,6 +229,7 @@ EOF
     "1")  dir=$masterPluginsDir v="master" pluginsDeploy ;;
 	"2")  dir=$ee62xPluginsDir v="ee-6.2.x" pluginsDeploy ;;
 	"3")  dir=$ee70xPluginsDir v="ee-7.0.x" pluginsDeploy ;;
+	"3")  dir=$ee61xPluginsDir v="ee-6.1.x" pluginsDeploy ;;
     "Q")  echo "case sensitive!!" ;;
     "q")  break  ;; 
      * )  echo "Not a valid option" ;;
@@ -236,14 +245,14 @@ clearEnvCmd(){
 	rm -r data logs
 
 	read -p "Do you want to remove all plugins except markteplace? (y/n)?" -n 1 -r
-		if [[ $REPLY = y ]]
+		if [[ $REPLY =~ ^[Yy]$ ]]
 		then
 			echo
 			echo "Clearing Plugins"
 			cd $dir/tomcat-7.0.42/webapps/
 			ls | grep -v "^ROOT\|^marketplace-portlet"  | xargs rm -r
 			echo "done"
-		elif [[ $REPLY = n ]] 
+		elif [[ $REPLY =~ ^[Nn]$ ]] 
 		then
 			echo "No"
 			echo "Plugins untouched"
@@ -272,7 +281,7 @@ Which Bundle?
 	Master     (1)
 	ee-6.2.x   (2)
 	ee-7.0.x   (3)
-	Release    (4)
+	ee-6.1.x   (4)
 
 	           (q)uit to main menu
 ----------------------------------------
@@ -282,7 +291,7 @@ EOF
     "1")  dir=$masterBundleDir v="master" db=$masterDB clearEnvCmd ;;
 	"2")  dir=$ee62xBundleDir v="ee-6.2.x" db=$ee62xDB clearEnvCmd ;;
 	"3")  dir=$ee70xBundleDir v="ee-7.0.x" db=$ee70xDB clearEnvCmd ;;
-	"4")  dir=$releaseBundleDir v="Release" db=$releaseDB clearEnvCmd ;;
+	"4")  dir=$ee61xBundleDir v="ee-6.1.x" db=$ee61xDB clearEnvCmd ;;
     "Q")  echo "case sensitive!!" ;;
     "q")  break  ;; 
      * )  echo "Not a valid option" ;;
@@ -387,6 +396,7 @@ Which Branch?
 	Master     (1)
 	ee-6.2.x   (2)
 	ee-7.0.x   (3)
+	ee-6.1.x   (4)
 
 	           (q)uit to main menu
 ----------------------------------------
@@ -396,6 +406,7 @@ EOF
     "1")   poshiSetTest ; dir=$masterSourceDir v="master" poshiOption ;;
 	"2")   poshiSetTest ; dir=$ee62xSourceDir v="ee-6.2.x" poshiOption ;;
 	"3")   poshiSetTest ; dir=$ee70xSourceDir v="ee-7.0.x" poshiOption ;;
+	"4")   poshiSetTest ; dir=$ee61xSourceDir v="ee-6.1.x" poshiOption ;;
     "Q")  echo "case sensitive!!" ;;
     "q")  break  ;; 
      * )  echo "Not a valid option" ;;
@@ -411,7 +422,7 @@ do
 	clear
     cat<<EOF
 
-Liferay Portal QA Tool 0.3    
+Liferay Portal QA Tool    
 ===========================================
 Main Menu
 
