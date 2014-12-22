@@ -78,7 +78,7 @@ bundleBuild(){
 
 	read -p "Switch to main branch and update to HEAD? (y/n)?" -n 1 -r
 		echo
-		if [[ $REPLY =~ ^[Yy]$ ]]
+		if [[ $REPLY = y ]]
 		then
 			echo "Switching to branch $v"
 			git checkout $v
@@ -88,10 +88,10 @@ bundleBuild(){
 			echo -e "\e[31m[y/n?]\e[0m"
 			read -n 1 -r
 				echo
-				if [[ $REPLY =~ ^[Yy]$ ]]
+				if [[ $REPLY = y ]]
 				then
 		    		echo "Sweetness"
-		    	elif [[ $REPLY =~ ^[Nn]$ ]] 
+		    	elif [[ $REPLY = n ]] 
 				then
 					echo "No"
 					echo "Come back when you have committed or stashed your modified files."
@@ -111,7 +111,7 @@ bundleBuild(){
 			echo "Pushing to Origin"
 			echo
 			git push origin $v
-		elif [[ $REPLY =~ ^[Nn]$ ]] 
+		elif [[ $REPLY = n ]] 
 		then
 			echo "No"
 		else 
@@ -245,14 +245,14 @@ clearEnvCmd(){
 	rm -r data logs
 
 	read -p "Do you want to remove all plugins except markteplace? (y/n)?" -n 1 -r
-		if [[ $REPLY =~ ^[Yy]$ ]]
+		if [[ $REPLY = y ]]
 		then
 			echo
 			echo "Clearing Plugins"
 			cd $dir/tomcat-7.0.42/webapps/
 			ls | grep -v "^ROOT\|^marketplace-portlet"  | xargs rm -r
 			echo "done"
-		elif [[ $REPLY =~ ^[Nn]$ ]] 
+		elif [[ $REPLY = n ]] 
 		then
 			echo "No"
 			echo "Plugins untouched"
