@@ -90,8 +90,8 @@ bundleBuild(){
 				echo
 				if [[ $REPLY = y ]]
 				then
-		    		echo "Sweetness"
-		    	elif [[ $REPLY = n ]] 
+					echo "Sweetness"
+				elif [[ $REPLY = n ]] 
 				then
 					echo "No"
 					echo "Come back when you have committed or stashed your modified files."
@@ -137,7 +137,7 @@ bundle(){
 	while :
 	do
 		clear
-    	cat<<EOF
+		cat<<EOF
 ========================================
 Build Bundle
 ----------------------------------------
@@ -151,16 +151,16 @@ Which bundle?
 	           (q)uit to main menu
 ----------------------------------------
 EOF
-    read -n1 -s
-    case "$REPLY" in
-    "1")  dir=$masterSourceDir bun_dir=$masterBundleDir v="master" db=$masterDB p=$masterPort bundleBuild ;;
+	read -n1 -s
+	case "$REPLY" in
+	"1")  dir=$masterSourceDir bun_dir=$masterBundleDir v="master" db=$masterDB p=$masterPort bundleBuild ;;
 	"2")  dir=$ee62xSourceDir bun_dir=$ee62xBundleDir v="ee-6.2.x" db=$ee62xDB p=$ee62xPort  bundleBuild ;;
 	"3")  dir=$ee70xSourceDir  bun_dir=$ee70xBundleDir v="ee-7.0.x" db=$ee70xDB p=$ee70xPort bundleBuild ;;
 	"4")  dir=$ee61xSourceDir  bun_dir=$ee61xBundleDir v="ee-6.1.x" db=$ee61xDB p=$ee61xPort bundleBuild ;;
-    "Q")  echo "case sensitive!!" ;;
-    "q")  break  ;; 
-     * )  echo "Not a valid option" ;;
-    esac
+	"Q")  echo "case sensitive!!" ;;
+	"q")  break  ;; 
+	* )   echo "Not a valid option" ;;
+	esac
 done
 }
 
@@ -184,20 +184,20 @@ pluginsDeploy(){
 		echo "done"
 		echo
 		cd $dir 
-   	done
+	done
 	if [[ $v == *ee* ]]
 		then
 		for p in "${eePlugins[@]}"
 		do
-   			echo "Deploying $p"
-   			cd $p
-   			sleep 2
-   			ant clean deploy
-   			echo "done"
-   			echo
-   			cd $dir  
-   		done
-   	fi
+			echo "Deploying $p"
+			cd $p
+			sleep 2
+			ant clean deploy
+			echo "done"
+			echo
+			cd $dir  
+		done
+	fi
 	echo "done"
 	read -rsp $'Press any key to continue...\n' -n1 key
 }
@@ -206,7 +206,7 @@ plugins(){
 	while :
 	do
 		clear
-    	cat<<EOF
+		cat<<EOF
 ========================================
 Deploy Plugins
 
@@ -224,16 +224,16 @@ Which Bundle?
 	           (q)uit to main menu
 ----------------------------------------
 EOF
-    read -n1 -s
-    case "$REPLY" in
-    "1")  dir=$masterPluginsDir v="master" pluginsDeploy ;;
+	read -n1 -s
+	case "$REPLY" in
+	"1")  dir=$masterPluginsDir v="master" pluginsDeploy ;;
 	"2")  dir=$ee62xPluginsDir v="ee-6.2.x" pluginsDeploy ;;
 	"3")  dir=$ee70xPluginsDir v="ee-7.0.x" pluginsDeploy ;;
 	"3")  dir=$ee61xPluginsDir v="ee-6.1.x" pluginsDeploy ;;
-    "Q")  echo "case sensitive!!" ;;
-    "q")  break  ;; 
-     * )  echo "Not a valid option" ;;
-    esac
+	"Q")  echo "case sensitive!!" ;;
+	"q")  break  ;; 
+	* )   echo "Not a valid option" ;;
+	esac
 done
 }
 
@@ -272,7 +272,7 @@ clearEnv(){
 	while :
 	do
 		clear
-    	cat<<EOF
+		cat<<EOF
 ========================================
 Clear Enviroment
 ----------------------------------------
@@ -286,16 +286,16 @@ Which Bundle?
 	           (q)uit to main menu
 ----------------------------------------
 EOF
-    read -n1 -s
-    case "$REPLY" in
-    "1")  dir=$masterBundleDir v="master" db=$masterDB clearEnvCmd ;;
+	read -n1 -s
+	case "$REPLY" in
+	"1")  dir=$masterBundleDir v="master" db=$masterDB clearEnvCmd ;;
 	"2")  dir=$ee62xBundleDir v="ee-6.2.x" db=$ee62xDB clearEnvCmd ;;
 	"3")  dir=$ee70xBundleDir v="ee-7.0.x" db=$ee70xDB clearEnvCmd ;;
 	"4")  dir=$ee61xBundleDir v="ee-6.1.x" db=$ee61xDB clearEnvCmd ;;
-    "Q")  echo "case sensitive!!" ;;
-    "q")  break  ;; 
-     * )  echo "Not a valid option" ;;
-    esac
+	"Q")  echo "case sensitive!!" ;;
+	"q")  break  ;; 
+	* )   echo "Not a valid option" ;;
+	esac
 done
 }
 
@@ -303,10 +303,10 @@ poshiFormat(){
 	echo "Formatting POSHI files for $v"
 	sleep 2
 	cd $dir/portal-impl
-    ant format-source
-   	echo
-    echo "done"
-    read -rsp $'Press any key to continue...\n' -n1 key
+	ant format-source
+	echo
+	echo "done"
+	read -rsp $'Press any key to continue...\n' -n1 key
 }
 
 poshiRun(){
@@ -322,33 +322,33 @@ poshiRun(){
 
 	echo "Running $testname"
 	sleep 2
-    echo
-    echo "Clearing Old Screenshots"
-    cd $dir/portal-web/test-results/functional/screenshots
-    rm *.jpg
-    cd $dir
-    ant -f run.xml run -Dtest.class=$testname < /dev/null
-    echo
-    echo "Finished $testname"
-    echo
-    echo "Renaming report.html"
+	echo
+	echo "Clearing Old Screenshots"
+	cd $dir/portal-web/test-results/functional/screenshots
+	rm *.jpg
+	cd $dir
+	ant -f run.xml run -Dtest.class=$testname < /dev/null
+	echo
+	echo "Finished $testname"
+	echo
+	echo "Renaming report.html"
 	mv $dir/portal-web/test-results/functional/report.html $dir/portal-web/test-results/functional/$testname.html
-    echo "done"
-    echo
-    echo "Zipping Screenshots"
-    echo
-    cd $dir/portal-web/test-results/functional/screenshots
-    zip Pictures$testname.zip *.jpg
-    rm *.jpg
-    echo "done"
-    read -rsp $'Press any key to continue...\n' -n1 key
+	echo "done"
+	echo
+	echo "Zipping Screenshots"
+	echo
+	cd $dir/portal-web/test-results/functional/screenshots
+	zip Pictures$testname.zip *.jpg
+	rm *.jpg
+	echo "done"
+	read -rsp $'Press any key to continue...\n' -n1 key
 }
 
 poshiOption(){
 	while :
 	do
 		clear
-    	cat<<EOF
+		cat<<EOF
 ============================================
 POSHI $v
 $testname
@@ -364,16 +364,16 @@ Choose Your Destiny:
 	                  (q)uit and go back
 ---------------------------------------------
 EOF
-    read -n1 -s
-    case "$REPLY" in
-    "1")  build="true" poshiRun ;;
+	read -n1 -s
+	case "$REPLY" in
+	"1")  build="true" poshiRun ;;
 	"2")  build="false" poshiRun ;;
 	"3")  poshiFormat ;;
 	"4")  poshiSetTest ;;
-    "Q")  echo "case sensitive!!" ;;
-    "q")  break  ;; 
-     * )  echo "Not a valid option" ;;
-    esac
+	"Q")  echo "case sensitive!!" ;;
+	"q")  break  ;; 
+	* )   echo "Not a valid option" ;;
+	esac
 done
 }
 
@@ -387,7 +387,7 @@ poshi(){
 	while :
 	do
 		clear
-    	cat<<EOF
+		cat<<EOF
 ========================================
 POSHI
 ----------------------------------------
@@ -407,10 +407,10 @@ EOF
 	"2")   poshiSetTest ; dir=$ee62xSourceDir v="ee-6.2.x" poshiOption ;;
 	"3")   poshiSetTest ; dir=$ee70xSourceDir v="ee-7.0.x" poshiOption ;;
 	"4")   poshiSetTest ; dir=$ee61xSourceDir v="ee-6.1.x" poshiOption ;;
-    "Q")  echo "case sensitive!!" ;;
-    "q")  break  ;; 
-     * )  echo "Not a valid option" ;;
-    esac
+	"Q")  echo "case sensitive!!" ;;
+	"q")  break  ;; 
+	* )   echo "Not a valid option" ;;
+	esac
 done
 }
 
@@ -420,7 +420,7 @@ done
 while :
 do
 	clear
-    cat<<EOF
+	cat<<EOF
 
 Liferay Portal QA Tool    
 ===========================================
@@ -430,23 +430,23 @@ Hello $name, What would you like to do?
 -------------------------------------------
 Please choose:
 
-Build Bundle       (1)
-Clear Enviroment   (2)
-Run POSHI Test     (3)
-Deploy Plugins     (4)
+	Build Bundle       (1)
+	Clear Enviroment   (2)
+	Run POSHI Test     (3)
+	Deploy Plugins     (4)
 
-                   (q)uit
+	                   (q)uit
 -------------------------------------------
 EOF
-    read -n1 -s
-    case "$REPLY" in
-    "1")  bundle ;;
-    "2")  clearEnv ;;
-  	"3")  poshi ;;
-    "4")  plugins ;;
-    "Q")  echo "case sensitive!!" ;;
-    "q")  echo "quit" 
+	read -n1 -s
+	case "$REPLY" in
+	"1")  bundle ;;
+	"2")  clearEnv ;;
+	"3")  poshi ;;
+	"4")  plugins ;;
+	"Q")  echo "case sensitive!!" ;;
+	"q")  echo "quit" 
 		  exit  ;; 
-     * )  echo "Not a valid option" ;;
-    esac
+	* )   echo "Not a valid option" ;;
+	esac
 done
