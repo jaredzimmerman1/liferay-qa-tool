@@ -26,8 +26,8 @@ ee70xPort=8
 ee61xPort=6
 
 # Portal Directories
-sourceDir=/home/username/Liferay/Source/private
-bundleDir=/home/username/Liferay/Source/private
+sourceDir=D:/LiferaySource/private
+bundleDir=D:/LiferaySource/private
 
 masterSourceDir=$sourceDir/master-build
 masterBundleDir=$bundleDir/master-bundles
@@ -136,7 +136,6 @@ bundleBuild(){
 bundle(){
 	while :
 	do
-		clear
 		cat<<EOF
 ========================================
 Build Bundle
@@ -205,7 +204,6 @@ pluginsDeploy(){
 plugins(){
 	while :
 	do
-		clear
 		cat<<EOF
 ========================================
 Deploy Plugins
@@ -323,9 +321,6 @@ poshiRun(){
 	echo "Running $testname"
 	sleep 2
 	echo
-	echo "Clearing Old Screenshots"
-	cd $dir/portal-web/test-results/functional/screenshots
-	rm *.jpg
 	cd $dir
 	ant -f run.xml run -Dtest.class=$testname < /dev/null
 	echo
@@ -334,20 +329,12 @@ poshiRun(){
 	echo "Renaming report.html"
 	mv $dir/portal-web/test-results/functional/report.html $dir/portal-web/test-results/functional/$testname.html
 	echo "done"
-	echo
-	echo "Zipping Screenshots"
-	echo
-	cd $dir/portal-web/test-results/functional/screenshots
-	zip Pictures$testname.zip *.jpg
-	rm *.jpg
-	echo "done"
 	read -rsp $'Press any key to continue...\n' -n1 key
 }
 
 poshiOption(){
 	while :
 	do
-		clear
 		cat<<EOF
 ============================================
 POSHI $v
