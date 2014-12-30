@@ -98,8 +98,8 @@ bundleBuild(){
 					break
 				else 
 					echo "please choose y or n"
-					sleep 1
-					break
+					sleep 3
+					continue
 				fi
 			echo "Clearing main branch"
 			git reset --hard
@@ -116,8 +116,8 @@ bundleBuild(){
 			echo "No"
 		else 
 			echo "please choose y or n"
-			sleep 1
-			bundleBuild
+			sleep 3
+			continue
 		fi
 
 	echo "Building $v"
@@ -256,8 +256,8 @@ clearEnvCmd(){
 			echo "Plugins untouched"
 		else 
 			echo "please choose y or n"
-			sleep 1
-			clearEnvCmd
+			sleep 3
+			continue
 		fi
 	echo "Remaking MySQL Database"
 	dbClear
