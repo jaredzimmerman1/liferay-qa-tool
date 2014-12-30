@@ -244,7 +244,7 @@ clearEnvCmd(){
 	cd $dir
 	rm -r data logs
 
-	read -p "Do you want to remove all plugins except markteplace? (y/n)?" -n 1 -r
+	read -p "Do you want to remove all plugins except marketplace? (y/n)?" -n 1 -r
 		if [[ $REPLY =~ ^[Yy]$ ]]
 		then
 			echo
