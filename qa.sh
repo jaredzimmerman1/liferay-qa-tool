@@ -63,7 +63,8 @@ declare -a eePlugins=("portlets/kaleo-forms-portlet" "portlets/kaleo-designer-po
 
 dbClear(){
 		if [[ -n "$mysqlUsername" ]]; then
-			if [[ -n "$mysqlPassword" ]]; then
+			if [[ -n "$mysqlPassword" ]]
+			then
 				mysql -u $mysqlUsername -p $mysqlPassword -e "drop database if exists $db; create database $db char set utf8;"
 			else
 				mysql -u $mysqlUsername -e "drop database if exists $db; create database $db char set utf8;"
@@ -192,7 +193,7 @@ pluginsDeploy(){
 		cd $dir 
 	done
 	if [[ $v == *ee* ]]
-		then
+	then
 		for p in "${eePlugins[@]}"
 		do
 			echo "Deploying $p"
@@ -318,7 +319,8 @@ poshiRun(){
 	echo "Running POSHI test for $v"
 	sleep 2
 
-	if [ "$build" = "true" ]; then
+	if [ "$build" = "true" ]
+	then
 		echo "Building Selenium"
 		sleep 1
 		cd $dir/portal-impl
