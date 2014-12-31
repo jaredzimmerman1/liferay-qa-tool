@@ -123,7 +123,14 @@ bundleBuild(){
 	echo "Building $v"
 	ant -f build-dist.xml unzip-tomcat
 	ant all
-	cd $bun_dir/tomcat-7.0.42/conf
+	
+	if [[ $v == *ee-6.1* ]]
+		then
+		cd $bun_dir/tomcat-7.0.40/conf
+	else
+		cd $bun_dir/tomcat-7.0.42/conf
+	fi
+
 	echo "Writing ports to ${p}080"
 	sed -i "s/8005/${p}005/; s/8080/${p}080/; s/8009/${p}009/; s/8443/${p}443/" server.xml
 	echo "Remaking MySQL Database"
