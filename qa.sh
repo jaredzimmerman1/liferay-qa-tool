@@ -125,7 +125,7 @@ bundleBuild(){
 	ant all
 	
 	if [[ $v == *ee-6.1* ]]
-		then
+	then
 		cd $bun_dir/tomcat-7.0.40/conf
 	else
 		cd $bun_dir/tomcat-7.0.42/conf
